@@ -1,0 +1,65 @@
+# Production Dockerfile for The Vible frontend
+# Phase 4: Deployment & Launch
+
+# Multi-stage build for optimal production image
+FROM node:18-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+
+# Set build environment variables
+ARG BUILD_TIMESTAMP
+ARG BUILD_HASH
+ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
+ENV BUILD_HASH=${BUILD_HASH}
+
+# Build the application
+RUN npm run build
+
+# Production image, copy all the files and run the app
+FROM nginx:alpine AS runner
+
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Create nginx user for security (commented out for container compatibility)
+# RUN addgroup -g 1001 -S nodejs && \
+#     adduser -S nextjs -u 1001
+
+WORKDIR /usr/share/nginx/html
+
+# Copy built assets from builder stage
+COPY --from=builder /app/dist .
+
+# Copy nginx configuration (frontend-only, no backend proxying)
+COPY docker/nginx/nginx.frontend.conf /etc/nginx/nginx.conf
+
+# Create nginx cache directory
+RUN mkdir -p /var/cache/nginx && \
+    mkdir -p /var/log/nginx && \
+    mkdir -p /etc/nginx/conf.d && \
+    touch /var/log/nginx/access.log && \
+    touch /var/log/nginx/error.log
+
+# Switch to non-root user (commented out for container compatibility)
+# USER nextjs
+
+# Expose port 80
+EXPOSE 80
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://localhost:80 || exit 1
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]

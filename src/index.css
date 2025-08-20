@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #f0f8ff;
+  --foreground: #1e293b;
+  --sky-blue: #87ceeb;
+  --cloud-white: #ffffff;
+  --soft-blue: #e6f3ff;
+  --light-blue: #b3d9ff;
+  --accent-blue: #3b82f6;
+}
+
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #87ceeb 0%, #b3d9ff 50%, #e6f3ff 100%);
+    background-attachment: fixed;
+    color: var(--foreground);
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* Animated clouds */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      /* Large fluffy cloud */
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 30%, transparent 60%),
+      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
+      radial-gradient(circle at 15% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 50%),
+      
+      /* Medium cloud */
+      radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 25%, transparent 55%),
+      radial-gradient(circle at 85% 35%, rgba(255, 255, 255, 0.6) 0%, transparent 45%),
+      
+      /* Small cloud */
+      radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 20%, transparent 50%),
+      radial-gradient(circle at 45% 75%, rgba(255, 255, 255, 0.5) 0%, transparent 40%),
+      
+      /* Distant cloud */
+      radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 15%, transparent 45%);
+    background-size: 
+      300px 300px, 250px 250px, 200px 200px,  /* Large cloud */
+      250px 250px, 200px 200px,               /* Medium cloud */
+      180px 180px, 150px 150px,               /* Small cloud */
+      120px 120px;                            /* Distant cloud */
+    animation: float 25s ease-in-out infinite;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Add a second layer of clouds for more depth */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 40%),
+      radial-gradient(circle at 10% 60%, rgba(255, 255, 255, 0.4) 0%, transparent 35%),
+      radial-gradient(circle at 70% 90%, rgba(255, 255, 255, 0.3) 0%, transparent 30%);
+    background-size: 150px 150px, 100px 100px, 80px 80px;
+    animation: float 35s ease-in-out infinite reverse;
+    pointer-events: none;
+    z-index: -2;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) translateX(0px) scale(1);
+  }
+  25% {
+    transform: translateY(-15px) translateX(8px) scale(1.02);
+  }
+  50% {
+    transform: translateY(-8px) translateX(-12px) scale(0.98);
+  }
+  75% {
+    transform: translateY(-20px) translateX(5px) scale(1.01);
+  }
+}
+
+/* Performance optimizations */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  body::before {
+    animation: none;
+  }
+}
+
+/* Focus indicators for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--accent-blue);
+  outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+  
+  .border-gray-200 {
+    border-color: #000000;
+  }
+  
+  .text-gray-600 {
+    color: #000000;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.7);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+  }
+  
+  /* Improve touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  body::before {
+    display: none;
+  }
+}
+
+/* Glass morphism effect for cards and containers */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 12px 40px rgba(31, 38, 135, 0.2);
+}
+
+/* Soft shadows for depth */
+.shadow-soft {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.shadow-soft-lg {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-slate-800 text-white px-6 py-3 rounded-lg font-medium;
+    @apply hover:bg-slate-700 transition-colors duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2;
+    @apply relative z-10;
+  }
+  
+  .btn-secondary {
+    @apply bg-white text-slate-800 px-6 py-3 rounded-lg font-medium border-2 border-slate-800;
+    @apply hover:bg-slate-50 transition-colors duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2;
+    @apply relative z-10;
+  }
+  
+  .card {
+    @apply glass rounded-xl p-6;
+    @apply relative z-10;
+  }
+  
+  .container-custom {
+    @apply max-w-4xl mx-auto px-6;
+    @apply relative z-10;
+  }
+
+  /* Enhanced content containers with glass effect */
+  .content-glass {
+    @apply glass-strong rounded-xl;
+    @apply relative z-10;
+  }
+
+  /* Floating animation for interactive elements */
+  .float-gentle {
+    animation: float 6s ease-in-out infinite;
+  }
+}

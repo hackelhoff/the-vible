@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # Frontend React application (Production)
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile.prod
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+      - BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
+      - BUILD_HASH=${BUILD_HASH}
+    networks:
+      - vible-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Backend API server (Production)
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile.prod
+    ports:
+      - "3001:3001"
+    volumes:
+      - signature_data:/app/data
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - LOG_LEVEL=info
+    networks:
+      - vible-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx reverse proxy (Production)
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.prod.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+      - ./dist:/usr/share/nginx/html:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - vible-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  vible-network:
+    driver: bridge
+
+volumes:
+  signature_data:
+    driver: local
+  nginx_logs:
+    driver: local
