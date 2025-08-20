@@ -1,4 +1,6 @@
-# The Vible - Love & goodwill do not require a religion, just a ✨Vibe✨
+# The Vible 
+
+## Love & goodwill do not require a religion, just a ✨Vibe✨
 
 A lifestyle philosophy web application promoting love and goodwill as a "vibe" with merchandise storefront.
 
