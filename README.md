@@ -1,210 +1,186 @@
-# The Vible 
+# The Vible 🌟
 
-## Love & goodwill do not require a religion, just a ✨Vibe✨
+> Love and goodwill do not require religion, just a vibe
 
-A lifestyle philosophy web application promoting love and goodwill as a "vibe" with merchandise storefront.
+A lifestyle philosophy platform promoting love, goodwill, and positive energy as a way of life. Join our community and explore merchandise that spreads positive energy.
 
-## ✨ Features
+## 🚀 Quick Start
 
-### Core Application
-- **Philosophy Page**: Inspirational content about love and goodwill
-- **Storefront**: E-commerce functionality with shopping cart
-- **Signature Quotes**: Daily inspirational quotes
-- **Responsive Design**: Mobile-first approach with cloudy blue sky theme
-
-## 🛠️ Technology Stack
-
-- **Frontend**: React 18 + Vite + Tailwind CSS
-- **Routing**: React Router DOM
-- **State Management**: React Context + useReducer
-- **Build Tool**: Vite with optimization plugins
-- **Performance**: Lighthouse CI, Core Web Vitals
-- **Testing**: Comprehensive test suite
-- **Deployment**: Docker + Nginx
-
-## 📦 Installation
-
+### Development
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/the-vible.git
-cd the-vible
-
 # Install dependencies
 npm install
 
 # Start development server
 npm run dev
+
+# Build for production
+npm run build:prod
+
+# Preview production build
+npm run preview:prod
 ```
 
-## 🧪 Testing Suite
-
-### Comprehensive Testing
+### Production Deployment
 ```bash
-# Run all tests
-npm test
+# Build for production
+npm run build:prod
 
-# Performance testing
-npm run test:performance
-
-# Bundle analysis
-npm run test:bundle
-
-# Accessibility testing
-npm run test:accessibility
-
-# Docker testing
-npm run test:docker
-
-# Full validation
-npm run validate
+# Deploy to Netlify (automatic with git push)
+# Configuration is already set up in netlify.toml
 ```
 
-### Test Coverage
-- ✅ Build process validation
-- ✅ Linting and code quality
-- ✅ Bundle size analysis
-- ✅ Performance metrics (Lighthouse)
-- ✅ Docker container testing
-- ✅ Accessibility compliance
-- ✅ SEO optimization checks
-
-## 🚀 Performance
-
-### Core Web Vitals
-- **First Contentful Paint (FCP)**: 2.7s (Score: 61)
-- **Largest Contentful Paint (LCP)**: 2.8s (Score: 82)
-- **Speed Index**: 2.7s (Score: 97)
-- **Cumulative Layout Shift (CLS)**: Optimized
-
-### Optimization Features
-- Code splitting and lazy loading
-- Service worker for caching
-- Image optimization and lazy loading
-- Bundle size optimization
-- Tree shaking and dead code elimination
-
-## 🐳 Docker Deployment
-
-### Development
-```bash
-# Start development environment
-docker-compose up --build -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-```
-
-### Production
-```bash
-# Build production image
-docker build -t the-vible:latest .
-
-# Run production container
-docker run -p 80:80 the-vible:latest
-```
-
-## 📊 Bundle Analysis
-
-```bash
-# Analyze production bundle
-npm run analyze:bundle
-
-# Interactive bundle analyzer
-npm run analyze
-```
-
-## 🔧 Development Scripts
-
-```bash
-# Development
-npm run dev          # Start dev server
-npm run build        # Build for production
-npm run preview      # Preview production build
-
-# Testing & Quality
-npm run lint         # Run ESLint
-npm run test         # Run test suite
-npm run validate     # Full validation
-
-# Performance
-npm run test:performance  # Lighthouse audit
-npm run test:bundle      # Bundle analysis
-npm run analyze          # Interactive analyzer
-
-# Deployment
-npm run predeploy    # Pre-deployment validation
-```
-
-## 📁 Project Structure
+## 🏗️ Project Structure
 
 ```
 the-vible/
-├── src/
-│   ├── components/          # Reusable UI components
-│   │   ├── features/        # Feature components (Cart, etc.)
-│   │   ├── layout/          # Layout components
-│   │   ├── quotes/          # Quote components
-│   │   └── ui/              # UI components
-│   ├── context/             # React Context providers
-│   ├── data/                # Static data and content
-│   ├── hooks/               # Custom React hooks
-│   ├── pages/               # Page components
-│   └── styles/              # CSS and styling
-├── scripts/                 # Testing and build scripts
-├── docker/                  # Docker configuration
-├── public/                  # Static assets
-└── memory-bank/             # Project documentation
+├── src/                    # Application source code
+│   ├── components/         # Reusable UI components
+│   ├── pages/             # Page components
+│   ├── context/           # React Context providers
+│   ├── hooks/             # Custom React hooks
+│   ├── data/              # Static data and content
+│   └── styles/            # Custom CSS and Tailwind config
+├── public/                 # Static assets
+├── memory-bank/            # Project documentation
+└── scripts/                # Build and deployment scripts
 ```
 
-### Test Suite
-- Automated testing pipeline
-- Performance regression detection
-- Accessibility compliance
-- Build validation
+## 🎯 Features
 
-## 🚀 Deployment
+- **Philosophy Platform**: Explore the doctrine of love and goodwill
+- **Digital Signatures**: Add your commitment to the community
+- **Merchandise Store**: Support good causes through purchases
+- **Mobile-First Design**: Optimized for all devices
+- **Performance Optimized**: Fast loading and smooth interactions
+- **PWA Ready**: Progressive web app capabilities
 
-### Pre-deployment Checklist
+## 🚀 Production Deployment
+
+### Netlify (Recommended)
+The project is fully configured for Netlify deployment:
+
+1. **Connect Repository**: Link your GitHub/GitLab repo to Netlify
+2. **Build Settings**: 
+   - Build command: `npm run build:prod`
+   - Publish directory: `dist`
+3. **Automatic Deployment**: Push to main branch triggers deployment
+
+### Configuration Files
+- **`netlify.toml`**: Complete Netlify configuration with proper headers
+- **`env.production`**: Production environment variables
+- **`vite.config.js`**: Enhanced production build configuration
+
+### MIME Type Issues - RESOLVED ✅
+All JavaScript module loading issues have been fixed:
+- Proper content type headers configured
+- Service worker optimized to prevent conflicts
+- Production build system enhanced
+- Complete deployment configuration provided
+
+## 🛠️ Technology Stack
+
+- **Frontend**: React 18 + Vite
+- **Styling**: Tailwind CSS + Custom CSS
+- **Build Tool**: Vite with production optimizations
+- **Deployment**: Netlify (configured) + Docker support
+- **Performance**: Core Web Vitals optimized
+- **Mobile**: Touch-friendly, responsive design
+
+## 📱 Mobile Optimization
+
+- **Performance**: Optimized CSS animations for mobile
+- **Touch Interface**: Mobile-friendly interactions
+- **Responsive Design**: Works perfectly on all screen sizes
+- **Service Worker**: Smart caching strategy for mobile
+
+## 🔧 Development
+
+### Prerequisites
+- Node.js 18+ 
+- npm 9+
+
+### Available Scripts
 ```bash
-npm run validate     # Run all validations
-npm run test:all     # Run all tests
-npm run analyze      # Check bundle size
+npm run dev              # Start development server
+npm run build            # Build for development
+npm run build:prod       # Build for production
+npm run preview          # Preview development build
+npm run preview:prod     # Preview production build
+npm run lint             # Run ESLint
 ```
 
-### Production Build
-```bash
-npm run build        # Create optimized build
-npm run preview      # Test production build locally
-```
+### Environment Variables
+- **Development**: Uses default Vite configuration
+- **Production**: Uses `env.production` file
+- **Build**: Environment-specific optimizations
 
-### Service Endpoints
-- **Frontend Application**: `http://localhost:3000` ✅
-- **Backend API**: `http://localhost:3001` ✅
-- **Nginx Proxy**: `http://localhost:80` ✅
-- **Health Checks**: All endpoints responding ✅
+## 📊 Performance
+
+- **Lighthouse Score**: > 80
+- **First Contentful Paint**: < 3s
+- **Largest Contentful Paint**: < 4s
+- **Cumulative Layout Shift**: < 0.1
+- **Mobile Optimized**: Touch-friendly performance
+
+## 🚨 Troubleshooting
+
+### Common Issues - RESOLVED ✅
+
+#### White Screen on First Load
+**Status**: ✅ Fixed  
+**Solution**: Proper MIME type configuration in `netlify.toml`
+
+#### Hard Refresh Required
+**Status**: ✅ Fixed  
+**Solution**: Updated service worker and cache strategy
+
+#### Module Loading Errors
+**Status**: ✅ Fixed  
+**Solution**: Enhanced Vite configuration and proper headers
+
+### If Issues Persist
+1. Clear browser cache
+2. Check `netlify.toml` configuration
+3. Verify build command: `npm run build:prod`
+4. Check deployment logs in Netlify dashboard
+
+## 🔒 Security
+
+- **Content Security Policy**: Configured headers
+- **XSS Protection**: React built-in + additional headers
+- **HTTPS Ready**: SSL configuration prepared
+- **Security Headers**: Comprehensive security configuration
 
 ## 📚 Documentation
 
-- **Project Brief**: `memory-bank/projectbrief.md`
-- **Implementation Plan**: `memory-bank/implementation-plan.md`
-- **System Patterns**: `memory-bank/systemPatterns.md`
-- **Progress Tracking**: `memory-bank/progress.md`
+- **Memory Bank**: Complete project documentation in `memory-bank/`
+- **Deployment Guide**: Production deployment instructions
+- **API Documentation**: Component and hook documentation
+- **Performance Guide**: Optimization and monitoring
 
 ## 🤝 Contributing
 
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
-4. Run the test suite: `npm test`
+4. Test thoroughly
 5. Submit a pull request
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🆘 Support
+
+For deployment issues or questions:
+1. Check the `DEPLOYMENT.md` file
+2. Review `netlify.toml` configuration
+3. Verify build process with `npm run build:prod`
+4. Check browser console for errors
 
 ---
 
-**The Vible** - Spreading love and goodwill as a lifestyle philosophy. ✨💙
+**Status**: Production Ready ✅  
+**Last Updated**: August 21, 2025  
+**Version**: 2.0.0

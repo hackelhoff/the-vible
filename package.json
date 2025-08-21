@@ -6,8 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint .",
     "preview": "vite preview",
+    "build:prod": "vite build --mode production",
+    "preview:prod": "vite preview --mode production",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "test": "node scripts/test-suite.js",
     "test:performance": "lighthouse http://localhost:5173 --output=json --output-path=./lighthouse-report.json --chrome-flags='--headless'",
     "test:build": "npm run build && npm run preview",
