@@ -48,7 +48,7 @@ const Store = () => {
   return (
     <div className="min-h-screen px-6 py-8 relative">
       {/* Under Construction Overlay */}
-      <div className="absolute inset-0 bg-slate-900/95 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-slate-900/95 backdrop-blur-sm z-50 flex items-center justify-center">
         <div className="glass-strong p-12 rounded-2xl text-center max-w-2xl mx-4">
           <div className="text-6xl mb-6">🚧</div>
           <h1 className="text-3xl md:text-4xl font-light text-white mb-4">
@@ -58,12 +58,19 @@ const Store = () => {
             Our store is currently being updated. Please return later or email us for inquiries.
           </p>
           <div className="space-y-4">
-            <a 
-              href="mailto:hello@thevible.com" 
-              className="inline-block bg-white text-slate-800 px-8 py-3 rounded-lg font-medium hover:bg-slate-100 transition-colors"
-            >
-              Email for Inquiries
-            </a>
+            <div className="flex gap-4 justify-center">
+              <a 
+                href="mailto:hello@thevible.com" 
+                className="inline-block bg-white text-slate-800 px-8 py-3 rounded-lg font-medium hover:bg-slate-100 transition-colors"
+              >
+                Email for Inquiries
+              </a>
+              <Link to="/">
+                <button className="inline-block bg-white text-slate-800 px-8 py-3 rounded-lg font-medium hover:bg-slate-100 transition-colors">
+                  Return Home
+                </button>
+              </Link>
+            </div>
             <div className="text-sm text-slate-300">
               hello@thevible.com
             </div>
