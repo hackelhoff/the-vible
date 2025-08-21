@@ -33,7 +33,7 @@
     min-height: 100vh;
   }
 
-  /* Animated clouds */
+  /* Simplified cloud animations for better mobile performance */
   body::before {
     content: '';
     position: fixed;
@@ -42,32 +42,22 @@
     width: 100%;
     height: 100%;
     background-image: 
-      /* Large fluffy cloud */
-      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 30%, transparent 60%),
-      radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.8) 0%, transparent 40%),
-      radial-gradient(circle at 15% 30%, rgba(255, 255, 255, 0.6) 0%, transparent 50%),
-      
-      /* Medium cloud */
-      radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 25%, transparent 55%),
-      radial-gradient(circle at 85% 35%, rgba(255, 255, 255, 0.6) 0%, transparent 45%),
-      
-      /* Small cloud */
-      radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 20%, transparent 50%),
-      radial-gradient(circle at 45% 75%, rgba(255, 255, 255, 0.5) 0%, transparent 40%),
-      
-      /* Distant cloud */
-      radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 15%, transparent 45%);
+      /* Large fluffy cloud - simplified */
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 40%, transparent 70%),
+      /* Medium cloud - simplified */
+      radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.4) 30%, transparent 60%),
+      /* Small cloud - simplified */
+      radial-gradient(circle at 40% 70%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.5) 25%, transparent 55%);
     background-size: 
-      300px 300px, 250px 250px, 200px 200px,  /* Large cloud */
-      250px 250px, 200px 200px,               /* Medium cloud */
-      180px 180px, 150px 150px,               /* Small cloud */
-      120px 120px;                            /* Distant cloud */
-    animation: float 25s ease-in-out infinite;
+      250px 250px,  /* Large cloud */
+      200px 200px,  /* Medium cloud */
+      150px 150px;  /* Small cloud */
+    animation: float 30s ease-in-out infinite;
     pointer-events: none;
     z-index: -1;
   }
 
-  /* Add a second layer of clouds for more depth */
+  /* Remove second cloud layer for mobile performance */
   body::after {
     content: '';
     position: fixed;
@@ -76,11 +66,9 @@
     width: 100%;
     height: 100%;
     background-image: 
-      radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.5) 0%, transparent 40%),
-      radial-gradient(circle at 10% 60%, rgba(255, 255, 255, 0.4) 0%, transparent 35%),
-      radial-gradient(circle at 70% 90%, rgba(255, 255, 255, 0.3) 0%, transparent 30%);
-    background-size: 150px 150px, 100px 100px, 80px 80px;
-    animation: float 35s ease-in-out infinite reverse;
+      radial-gradient(circle at 60% 40%, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+    background-size: 120px 120px;
+    animation: float 40s ease-in-out infinite reverse;
     pointer-events: none;
     z-index: -2;
   }
@@ -88,16 +76,10 @@
 
 @keyframes float {
   0%, 100% {
-    transform: translateY(0px) translateX(0px) scale(1);
-  }
-  25% {
-    transform: translateY(-15px) translateX(8px) scale(1.02);
+    transform: translateY(0px) translateX(0px);
   }
   50% {
-    transform: translateY(-8px) translateX(-12px) scale(0.98);
-  }
-  75% {
-    transform: translateY(-20px) translateX(5px) scale(1.01);
+    transform: translateY(-10px) translateX(5px);
   }
 }
 
@@ -108,6 +90,38 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Enhanced mobile performance optimizations */
+@media (max-width: 768px) {
+  /* Disable complex animations on mobile for better performance */
+  body::before,
+  body::after {
+    animation: none;
+    background-image: 
+      radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.6) 0%, transparent 50%),
+      radial-gradient(circle at 80% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 45%);
+    background-size: 200px 200px, 150px 150px;
+  }
+  
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Improve touch targets */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Reduce backdrop-filter usage on mobile for better performance */
+  .glass,
+  .glass-strong {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.8);
+  }
 }
 
 /* Accessibility improvements */
@@ -121,7 +135,8 @@ html {
     scroll-behavior: auto !important;
   }
   
-  body::before {
+  body::before,
+  body::after {
     animation: none;
   }
 }
@@ -167,20 +182,6 @@ html {
   background: rgba(59, 130, 246, 0.7);
 }
 
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  /* Prevent horizontal scroll on mobile */
-  body {
-    overflow-x: hidden;
-  }
-  
-  /* Improve touch targets */
-  button, a {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
-
 /* Print styles */
 @media print {
   .no-print {
@@ -192,7 +193,8 @@ html {
     color: black !important;
   }
   
-  body::before {
+  body::before,
+  body::after {
     display: none;
   }
 }
@@ -255,5 +257,12 @@ html {
   /* Floating animation for interactive elements */
   .float-gentle {
     animation: float 6s ease-in-out infinite;
+  }
+  
+  /* Mobile-optimized animations */
+  @media (max-width: 768px) {
+    .float-gentle {
+      animation: none;
+    }
   }
 }

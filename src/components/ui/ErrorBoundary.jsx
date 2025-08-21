@@ -3,72 +3,110 @@ import React from 'react';
 class ErrorBoundary extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false, error: null, errorInfo: null };
+    this.state = { 
+      hasError: false, 
+      error: null, 
+      errorInfo: null,
+      isMobile: false 
+    };
   }
 
   static getDerivedStateFromError(error) {
-    // Update state so the next render will show the fallback UI
     return { hasError: true };
   }
 
   componentDidCatch(error, errorInfo) {
-    // Log error to console and any error reporting service
-    console.error('Error caught by boundary:', error, errorInfo);
     this.setState({
       error: error,
       errorInfo: errorInfo
     });
+    
+    // Log error for debugging
+    console.error('Error caught by boundary:', error, errorInfo);
+    
+    // Check if mobile
+    this.setState({ isMobile: window.innerWidth <= 768 });
+  }
 
-    // You can also log the error to an error reporting service here
-    // logErrorToService(error, errorInfo);
+  componentDidMount() {
+    // Check mobile on mount
+    this.setState({ isMobile: window.innerWidth <= 768 });
+    
+    // Add resize listener
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
+
+  handleResize = () => {
+    this.setState({ isMobile: window.innerWidth <= 768 });
+  }
+
+  handleRetry = () => {
+    this.setState({ hasError: false, error: null, errorInfo: null });
+    window.location.reload();
+  }
+
+  handleClearCache = () => {
+    // Clear localStorage and sessionStorage
+    localStorage.clear();
+    sessionStorage.clear();
+    
+    // Reload the page
+    window.location.reload();
   }
 
   render() {
     if (this.state.hasError) {
-      // Custom fallback UI
       return (
-        <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-100 flex items-center justify-center p-4">
-          <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
-            <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
-              </svg>
-            </div>
+        <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="max-w-md w-full glass-strong rounded-xl p-8 text-center">
+            <div className="text-6xl mb-4">⚠️</div>
+            <h1 className="text-2xl font-bold text-slate-800 mb-4">
+              Something went wrong
+            </h1>
             
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              Oops! Something went wrong
-            </h2>
+            {this.state.isMobile && (
+              <div className="mb-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                <p className="text-sm text-yellow-800">
+                  <strong>Mobile detected:</strong> This might be a performance issue.
+                </p>
+              </div>
+            )}
             
-            <p className="text-gray-600 mb-6">
-              We're sorry, but something unexpected happened. Please try refreshing the page.
+            <p className="text-slate-600 mb-6">
+              We encountered an error while loading the page. This is usually temporary.
             </p>
             
             <div className="space-y-3">
               <button
-                onClick={() => window.location.reload()}
-                className="w-full bg-sky-600 text-white py-2 px-4 rounded-lg hover:bg-sky-700 transition-colors"
-              >
-                Refresh Page
-              </button>
-              
-              <button
-                onClick={() => this.setState({ hasError: false, error: null, errorInfo: null })}
-                className="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                onClick={this.handleRetry}
+                className="w-full btn-primary"
               >
                 Try Again
               </button>
+              
+              {this.state.isMobile && (
+                <button
+                  onClick={this.handleClearCache}
+                  className="w-full btn-secondary"
+                >
+                  Clear Cache & Retry
+                </button>
+              )}
             </div>
             
-            {process.env.NODE_ENV === 'development' && this.state.errorInfo && (
+            {process.env.NODE_ENV === 'development' && this.state.error && (
               <details className="mt-6 text-left">
-                <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
+                <summary className="cursor-pointer text-sm text-slate-600 font-medium">
                   Error Details (Development)
                 </summary>
-                <pre className="mt-2 text-xs text-red-600 bg-red-50 p-3 rounded overflow-auto max-h-32">
-                  {this.state.error && this.state.error.toString()}
-                  <br />
-                  {this.state.errorInfo.componentStack}
-                </pre>
+                <div className="mt-2 p-3 bg-red-50 rounded text-xs text-red-800 overflow-auto">
+                  <pre>{this.state.error.toString()}</pre>
+                  <pre>{this.state.errorInfo.componentStack}</pre>
+                </div>
               </details>
             )}
           </div>
