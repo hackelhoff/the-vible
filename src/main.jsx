@@ -3,43 +3,54 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
-// Performance monitoring
-if ('performance' in window) {
-  // Track Core Web Vitals
-  const observer = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      if (entry.entryType === 'largest-contentful-paint') {
-        console.log('LCP:', entry.startTime);
-        // Send to analytics if needed
+// Simple error handler for module loading issues
+window.addEventListener('error', (event) => {
+  if (event.error && event.error.message.includes('MIME type')) {
+    console.warn('MIME type issue detected, attempting recovery...');
+    // Force reload if MIME type issues persist
+    setTimeout(() => {
+      if (document.readyState === 'loading') {
+        window.location.reload();
       }
-      if (entry.entryType === 'first-input') {
-        console.log('FID:', entry.processingStart - entry.startTime);
-        // Send to analytics if needed
+    }, 1000);
+  }
+});
+
+// Performance monitoring (simplified for mobile)
+if ('performance' in window && 'PerformanceObserver' in window) {
+  try {
+    // Track Core Web Vitals
+    const observer = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        if (entry.entryType === 'largest-contentful-paint') {
+          console.log('LCP:', entry.startTime);
+        }
+        if (entry.entryType === 'first-input') {
+          console.log('FID:', entry.processingStart - entry.startTime);
+        }
       }
-    }
-  });
+    });
 
-  observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
+    observer.observe({ entryTypes: ['largest-contentful-paint', 'first-input'] });
 
-  // Track Cumulative Layout Shift
-  let clsValue = 0;
-  let clsEntries = [];
-
-  const observer2 = new PerformanceObserver((list) => {
-    for (const entry of list.getEntries()) {
-      if (!entry.hadRecentInput) {
-        clsValue += entry.value;
-        clsEntries.push(entry);
+    // Track Cumulative Layout Shift
+    let clsValue = 0;
+    const clsObserver = new PerformanceObserver((list) => {
+      for (const entry of list.getEntries()) {
+        if (!entry.hadRecentInput) {
+          clsValue += entry.value;
+        }
       }
-    }
-    console.log('CLS:', clsValue);
-    // Send to analytics if needed
-  });
+      console.log('CLS:', clsValue);
+    });
 
-  observer2.observe({ entryTypes: ['layout-shift'] });
+    clsObserver.observe({ entryTypes: ['layout-shift'] });
+  } catch (error) {
+    console.warn('Performance monitoring failed:', error);
+  }
 }
 
-// Service Worker registration
+// Service Worker registration (simplified)
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
@@ -52,23 +63,7 @@ if ('serviceWorker' in navigator) {
   });
 }
 
-// Preload critical resources
-const preloadCriticalResources = () => {
-  // Preload critical CSS
-  const link = document.createElement('link');
-  link.rel = 'preload';
-  link.as = 'style';
-  link.href = '/src/index.css';
-  document.head.appendChild(link);
-};
-
-// Initialize preloading
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', preloadCriticalResources);
-} else {
-  preloadCriticalResources();
-}
-
+// Render the app
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />

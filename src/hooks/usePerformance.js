@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 
 export const usePerformance = () => {
   const [metrics, setMetrics] = useState({
@@ -7,41 +7,33 @@ export const usePerformance = () => {
     fid: null,
     cls: null,
     ttfb: null,
-    isMobile: false,
-    hasPerformanceIssues: false
+    isMobile: false
   });
 
   const [errors, setErrors] = useState([]);
 
   // Check if device is mobile
   const checkMobile = useCallback(() => {
+    if (typeof window === 'undefined') return false;
     return window.innerWidth <= 768;
   }, []);
 
-  // Detect performance issues
-  const detectPerformanceIssues = useCallback((currentMetrics) => {
-    const issues = [];
+  // Detect performance issues using useMemo to avoid infinite loops
+  const hasPerformanceIssues = useMemo(() => {
+    if (!metrics) return false;
     
-    if (currentMetrics.lcp > 2500) {
-      issues.push('LCP is too slow (>2.5s)');
-    }
+    if (metrics.lcp && metrics.lcp > 2500) return true;
+    if (metrics.fid && metrics.fid > 100) return true;
+    if (metrics.cls && metrics.cls > 0.1) return true;
+    if (metrics.ttfb && metrics.ttfb > 600) return true;
     
-    if (currentMetrics.fid > 100) {
-      issues.push('FID is too slow (>100ms)');
-    }
-    
-    if (currentMetrics.cls > 0.1) {
-      issues.push('CLS is too high (>0.1)');
-    }
-    
-    if (currentMetrics.ttfb > 600) {
-      issues.push('TTFB is too slow (>600ms)');
-    }
-    
-    return issues.length > 0;
-  }, []);
+    return false;
+  }, [metrics.lcp, metrics.fid, metrics.cls, metrics.ttfb]);
 
   useEffect(() => {
+    // Only run in browser environment
+    if (typeof window === 'undefined') return;
+    
     const isMobile = checkMobile();
     
     // Set initial mobile state
@@ -150,40 +142,34 @@ export const usePerformance = () => {
     }
   }, [checkMobile]);
 
-  // Update performance issues when metrics change
-  useEffect(() => {
-    const hasIssues = detectPerformanceIssues(metrics);
-    setMetrics(prev => ({ ...prev, hasPerformanceIssues: hasIssues }));
-  }, [metrics, detectPerformanceIssues]);
-
   // Mobile-specific performance recommendations
   const getMobileRecommendations = useCallback(() => {
     if (!metrics.isMobile) return [];
     
     const recommendations = [];
     
-    if (metrics.lcp > 2500) {
+    if (metrics.lcp && metrics.lcp > 2500) {
       recommendations.push('Consider reducing image sizes and optimizing critical resources');
     }
     
-    if (metrics.fid > 100) {
+    if (metrics.fid && metrics.fid > 100) {
       recommendations.push('Break up long JavaScript tasks and optimize event handlers');
     }
     
-    if (metrics.cls > 0.1) {
+    if (metrics.cls && metrics.cls > 0.1) {
       recommendations.push('Ensure images and videos have explicit dimensions');
     }
     
-    if (metrics.ttfb > 600) {
+    if (metrics.ttfb && metrics.ttfb > 600) {
       recommendations.push('Optimize server response time and consider CDN');
     }
     
     return recommendations;
-  }, [metrics]);
+  }, [metrics.isMobile, metrics.lcp, metrics.fid, metrics.cls, metrics.ttfb]);
 
   // Force performance check
   const forcePerformanceCheck = useCallback(() => {
-    if ('performance' in window) {
+    if (typeof window !== 'undefined' && 'performance' in window) {
       const navigationEntry = performance.getEntriesByType('navigation')[0];
       if (navigationEntry) {
         setMetrics(prev => ({ 
@@ -194,12 +180,13 @@ export const usePerformance = () => {
     }
   }, []);
 
+  // Ensure we always return valid values
   return {
-    metrics,
-    errors,
-    getMobileRecommendations,
-    forcePerformanceCheck,
-    isMobile: metrics.isMobile,
-    hasPerformanceIssues: metrics.hasPerformanceIssues
+    metrics: metrics || {},
+    errors: errors || [],
+    getMobileRecommendations: getMobileRecommendations || (() => []),
+    forcePerformanceCheck: forcePerformanceCheck || (() => {}),
+    isMobile: metrics?.isMobile || false,
+    hasPerformanceIssues: hasPerformanceIssues || false
   };
 };
