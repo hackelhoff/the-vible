@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import './index.css'
 
-// Simple error handler for module loading issues
+// Enhanced error handler for module loading issues
 window.addEventListener('error', (event) => {
   if (event.error && event.error.message.includes('MIME type')) {
     console.warn('MIME type issue detected, attempting recovery...');
@@ -14,7 +14,26 @@ window.addEventListener('error', (event) => {
       }
     }, 1000);
   }
+  
+  // Handle syntax errors that might be caused by MIME type issues
+  if (event.error && event.error.name === 'SyntaxError') {
+    console.warn('Syntax error detected, likely MIME type issue, attempting recovery...');
+    // Force reload for syntax errors
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000);
+  }
 });
+
+// Handle service worker messages
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'FORCE_RELOAD') {
+      console.log('Service worker requested force reload');
+      window.location.reload();
+    }
+  });
+}
 
 // Performance monitoring (simplified for mobile)
 if ('performance' in window && 'PerformanceObserver' in window) {
@@ -69,9 +88,22 @@ if ('serviceWorker' in navigator) {
             }
           });
         });
+        
+        // Force update if there are any issues
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
       })
       .catch((registrationError) => {
         console.log('SW registration failed: ', registrationError);
+        // If service worker fails, clear any existing caches
+        if ('caches' in window) {
+          caches.keys().then(cacheNames => {
+            cacheNames.forEach(cacheName => {
+              caches.delete(cacheName);
+            });
+          });
+        }
       });
     
     // Handle service worker controller change
