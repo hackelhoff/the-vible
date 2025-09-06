@@ -8,7 +8,6 @@ import './index.css';
 // Lazy load pages for better performance
 const Home = lazy(() => import('./pages/Home'));
 const Store = lazy(() => import('./pages/Store'));
-const Signature = lazy(() => import('./pages/Signature'));
 
 // Enhanced loading component with mobile optimization
 const LoadingSpinner = () => {
@@ -66,7 +65,7 @@ const useMobileDetection = () => {
 };
 
 function App() {
-  const { isMobile, isLoading } = useMobileDetection();
+  const { isLoading } = useMobileDetection();
 
   // Show loading while detecting mobile
   if (isLoading) {
@@ -82,7 +81,6 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/store" element={<Store />} />
-                <Route path="/signatures" element={<Signature />} />
                 <Route path="*" element={<Home />} />
               </Routes>
             </Suspense>

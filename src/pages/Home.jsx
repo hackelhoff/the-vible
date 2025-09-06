@@ -19,7 +19,7 @@ const Home = () => {
           </p>
           <div className="text-sm text-slate-600 leading-relaxed max-w-2xl mx-auto">
             <p className="mb-4">
-              This doctrine represents a fundamental principle that can guide our interactions 
+              This belief represents a fundamental principle that can guide our interactions 
               with one another, regardless of our individual beliefs or backgrounds.
             </p>
             <p>
@@ -43,53 +43,34 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section aria-labelledby="features-heading" className="mb-12">
-          <h2 id="features-heading" className="sr-only">Main Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-            <Link 
-              to="/signatures" 
-              className="group block"
-              aria-label="Add your digital signature to show your commitment"
-            >
-              <div className="p-8 glass-strong rounded-xl shadow-soft hover:shadow-soft-lg transition-all duration-300 hover:scale-105 focus-within:ring-4 focus-within:ring-blue-400 focus-within:ring-offset-2">
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">✍️</div>
-                <h3 className="font-bold text-slate-800 text-xl mb-3 group-hover:text-slate-700 transition-colors">
-                  Sign Your Commitment
-                </h3>
-                <p className="text-slate-600 text-base leading-relaxed">
-                  Add your digital signature to show your commitment to love and goodwill
-                </p>
-                <div className="mt-4 text-blue-600 text-sm font-medium group-hover:text-blue-700 transition-colors">
-                  Click to sign →
-                </div>
-              </div>
-            </Link>
+        {/* Call to Action Section */}
+        <section aria-labelledby="cta-heading" className="mb-12">
+          <h2 id="cta-heading" className="sr-only">Call to Action</h2>
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="mb-8">
+              <h3 className="text-2xl md:text-3xl font-light text-slate-700 mb-4">
+                Ready to Spread the Vibe?
+              </h3>
+              <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                Support charitable organizations while embracing the philosophy of love and goodwill through our curated merchandise.
+              </p>
+            </div>
             
             <Link 
               to="/store" 
-              className="group block"
+              className="group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium rounded-xl shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-offset-2"
               aria-label="Browse merchandise and support charitable organizations"
             >
-              <div className="p-8 glass-strong rounded-xl shadow-soft hover:shadow-soft-lg transition-all duration-300 hover:scale-105 focus-within:ring-4 focus-within:ring-green-400 focus-within:ring-offset-2">
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300" aria-hidden="true">🛍️</div>
-                <h3 className="font-bold text-slate-800 text-xl mb-3 group-hover:text-slate-700 transition-colors">
-                  Support Good Causes
-                </h3>
-                <p className="text-slate-600 text-base leading-relaxed">
-                  Purchase merchandise to support charitable organizations
-                </p>
-                <div className="mt-4 text-green-600 text-sm font-medium group-hover:text-green-700 transition-colors">
-                  Browse store →
-                </div>
-              </div>
+              <span className="text-xl mr-3 group-hover:scale-110 transition-transform duration-300">🛍️</span>
+              <span className="text-lg">Visit Our Store</span>
+              <span className="ml-2 group-hover:translate-x-1 transition-transform duration-300">→</span>
             </Link>
           </div>
         </section>
         
         <footer>
           <div className="text-sm text-slate-600 text-center">
-            <p>Explore our message, sign your commitment, and support good causes.</p>
+            <p>Explore our message and support good causes.</p>
           </div>
         </footer>
       </div>

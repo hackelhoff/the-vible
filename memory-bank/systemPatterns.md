@@ -23,13 +23,6 @@
 │  │  └─────────────┘  └─────────────┘  └─────────────────┘ │ │
 │  └─────────────────────────────────────────────────────────┘ │
 │                                                             │
-│  ┌─────────────────────────────────────────────────────────┐ │
-│  │                   Signature Collection                  │ │
-│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐ │ │
-│  │  │ Community   │  │  Signature  │  │  Duplicate      │ │ │
-│  │  │   Pledge    │  │    Form     │  │  Prevention     │ │ │
-│  │  └─────────────┘  └─────────────┘  └─────────────────┘ │ │
-│  └─────────────────────────────────────────────────────────┘ │
 │                                                             │
 │  ┌─────────────────────────────────────────────────────────┐ │
 │  │                   Checkout Flow                        │ │
@@ -68,9 +61,6 @@
 - **Random Quote System** - Dynamic content that changes on page load
 
 **Backend Patterns:**
-- **RESTful API** - Simple API endpoints for signature collection
-- **Session Management** - Cookie-based session tracking
-- **Duplicate Prevention** - IP + session + timestamp validation
 - **File-based Storage** - JSON files for data persistence
 
 **Container Patterns:**
@@ -88,7 +78,6 @@
 - **ProductCard** - Individual product display component
 - **ShoppingCart** - Cart management and checkout
 - **CheckoutForm** - Purchase completion form
-- **SignaturePage** - Community pledge and signature collection
 - **RandomQuote** - Dynamic spiritual quote display
 
 **Component Dependencies:**
@@ -97,7 +86,6 @@
 - **ShoppingCart** → **CartContext**, **CheckoutForm**
 - **Header** → **Navigation**, **CartIcon**
 - **InformationalPage** → **RandomQuote**
-- **SignaturePage** → **SignatureForm**, **CommunityDisplay**
 
 ## Data Flow
 **Primary Data Flow:**
@@ -105,28 +93,23 @@
 - **Cart Actions** → Cart Context → Local Storage → UI Updates
 - **User Navigation** → React Router → Component rendering
 - **Random Quotes** → JSON data → Quote component → Page display
-- **Signature Submission** → API endpoint → Backend validation → Storage
 
 **Data Models:**
 - **Product Model** - ID, name, description, price, image, category
 - **Cart Item Model** - Product ID, quantity, price
 - **Checkout Model** - Customer info, shipping, payment
 - **Quote Model** - Text, author, category, inspiration level
-- **Signature Model** - Anonymous ID, timestamp, IP hash, session ID
 
 ## Security Patterns
 - **Input Validation** - Form data validation and sanitization
 - **XSS Prevention** - React's built-in XSS protection
 - **HTTPS Only** - Secure connections for all production traffic
-- **IP Hashing** - Secure storage of user identifiers
-- **Rate Limiting** - Prevent abuse of signature collection
-- **Session Security** - Secure session management and validation
 
 ## Scalability Considerations
 - **Component Reusability** - Modular design for easy feature addition
 - **Performance Optimization** - Lazy loading and code splitting
 - **Container Orchestration** - Docker Compose for local, Kubernetes for production
-- **Data Backup** - Regular signature data backups and recovery
+- **Data Backup** - Regular product data backups and recovery
 
 ## Error Handling Patterns
 - **Graceful Degradation** - Core functionality works without JavaScript

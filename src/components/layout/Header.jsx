@@ -12,8 +12,7 @@ const Header = () => {
 
   const navigation = [
     { name: 'Home', href: '/', current: location.pathname === '/' },
-    { name: 'Store', href: '/store', current: location.pathname === '/store' },
-    { name: 'Signatures', href: '/signatures', current: location.pathname === '/signatures' }
+    { name: 'Store', href: '/store', current: location.pathname === '/store' }
   ];
 
   const toggleMenu = () => {

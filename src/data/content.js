@@ -8,7 +8,6 @@ export const siteContent = {
   navigation: {
     home: "Home",
     store: "Store",
-    signatures: "Join the Vibe",
     about: "About"
   },
   
@@ -84,32 +83,11 @@ export const siteContent = {
     }
   },
   
-  signatures: {
-    title: "Join the Vibe Movement",
-    subtitle: "Add your signature to our community pledge",
-    description: "By signing below, you're committing to live from a place of love and goodwill, and joining thousands of others who share this vision.",
-    
-    pledge: "I pledge to live from a place of love and goodwill, treating every person I encounter with kindness and compassion, and doing my part to create a more loving world.",
-    
-    form: {
-      name: "Your Name",
-      message: "Your Message (optional)",
-      submit: "Sign the Pledge",
-      placeholder: "Share why you're joining the vibe movement..."
-    },
-    
-    stats: {
-      total: "Total Signatures",
-      recent: "Recent Signatures"
-    }
-  },
-  
   footer: {
     mission: "Spreading love and goodwill as a way of being",
     links: {
       home: "Home",
       store: "Store",
-      signatures: "Join Us",
       about: "About"
     },
     social: {
